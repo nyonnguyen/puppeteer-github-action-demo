@@ -4,10 +4,10 @@ name: Puppeteer Tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   test:
@@ -29,6 +29,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Puppeteer tests
-        run: npm test
+      # Fix permissions for node_modules (just in case)
+      - name: Fix file permissions
+        run: sudo chmod -R 777 node_modules
 
+      # Run Puppeteer tests using npx to ensure local binary is used
+      - name: Run Puppeteer tests
+        run: npx jest
